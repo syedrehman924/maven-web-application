@@ -9,8 +9,8 @@
 </head>
 </head>
 <body>
-<h1 align="center">Welcome to Vedha Software Solutions. Bengaluru,Karnataka </h1>
-<h1 align="center"> Vedha Software Solutions- Very Good Training center for DevOps with AWS in Maratha Halli Bangalore India and also for Job Assitance Job Support also...Teaching Real Time scnerios</h1>
+<h1 align="center">Welcome to Vedha Software Solutions. </h1>
+<h1 align="center"> Vedha Software Solutions- Very Good Training center for DevOps with AWS in Kadapa India and also for Job Assitance Job Support also...Teaching Real Time scnerios</h1>
 <hr>
 <br>
 	<h1><h3> Server Side IP Address </h3><br>
@@ -35,12 +35,8 @@ out.println("Server Host Name :: "+inetAddress.getHostName());
 	</span>
 	<span style="font-weight: bold;">
 		Vedha Technologies, 
-		Martha Halli, Above ICICI Bank, Beside Meghana Foods,
-		Bangalore,
-		+91-9980923226
-		devopstrainingblr@gmail.com
 		<br>
-		<a href="mailto:devopstrainingblr@gmail.com">Mail to Vedha Technologies</a>
+		<a href="mailto:sudhamsmouli@gmail.com">Mail to Vedha Technologies</a>
 	</span>
 </div>
 <hr>
