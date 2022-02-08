@@ -1,75 +1,32 @@
-pipeline{
-
-agent any
-
-tools{
-maven 'maven3.8.2'
-
-}
-
-triggers{
-pollSCM('* * * * *')
-}
-
-options{
-timestamps()
-buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5'))
-}
-
-stages{
-
-  stage('CheckOutCode'){
-    steps{
-    git branch: 'development', credentialsId: '957b543e-6f77-4cef-9aec-82e9b0230975', url: 'https://github.com/devopstrainingblr/maven-web-application-1.git'
-	
+node
+{
+    def mavenHome = tool name:"maven3.8.3" 
+     
+	stage('Checkout SCM')
+	{
+		git branch: 'development', credentialsId: '232d40fc-77db-4e01-bac3-131f8ac9e01c', url: 'https://github.com/ecom-website/maven-web-application.git'
 	}
-  }
-  
-  stage('Build'){
-  steps{
-  sh  "mvn clean package"
-  }
-  }
-/*
- stage('ExecuteSonarQubeReport'){
-  steps{
-  sh  "mvn clean sonar:sonar"
-  }
-  }
-  
-  stage('UploadArtifactsIntoNexus'){
-  steps{
-  sh  "mvn clean deploy"
-  }
-  }
-  
-  stage('DeployAppIntoTomcat'){
-  steps{
-  sshagent(['bfe1b3c1-c29b-4a4d-b97a-c068b7748cd0']) {
-   sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@35.154.190.162:/opt/apache-tomcat-9.0.50/webapps/"    
-  }
-  }
-  }
-  */
-}//Stages Closing
+	
+	stage('Build')
+	{
+		sh "${mavenHome}/bin/mvn clean package"
+	}
+	
+		stage('Sonar')
+	{
+		sh "${mavenHome}/bin/mvn clean sonar:sonar"
+	}
+	
+		stage('Nexus')
+	{
+		sh "${mavenHome}/bin/mvn clean deploy"
+	}	
 
-post{
-
- success{
- emailext to: 'devopstrainingind@gmail.com,sudhamsmouli@gmail.com',
-          subject: "Pipeline Build is over .. Build # is ..${env.BUILD_NUMBER} and Build status is.. ${currentBuild.result}.",
-          body: "Pipeline Build is over .. Build # is ..${env.BUILD_NUMBER} and Build status is.. ${currentBuild.result}.",
-          replyTo: 'devopstrainingblr@gmail.com'
- }
- 
- failure{
- emailext to: 'devopstrainingind@gmail.com,sudhamsmouli@gmail.com',
-          subject: "Pipeline Build is over .. Build # is ..${env.BUILD_NUMBER} and Build status is.. ${currentBuild.result}.",
-          body: "Pipeline Build is over .. Build # is ..${env.BUILD_NUMBER} and Build status is.. ${currentBuild.result}.",
-          replyTo: 'devopstrainingblr@gmail.com'
- }
- 
+	stage('Deploy to Tomcat')
+	{
+		sshagent(['30d90ff4-a3ea-4324-ba32-86fe95cde5f9']) {
+		sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@13.234.110.55:/opt/apache-tomcat-9.0.58/webapps/"
+         }
+    }	
+	
 }
-
-
-}//Pipeline closing
